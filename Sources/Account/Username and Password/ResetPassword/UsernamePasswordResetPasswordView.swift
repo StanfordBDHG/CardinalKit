@@ -10,7 +10,24 @@ import SwiftUI
 import Views
 
 
-struct UsernamePasswordResetPasswordView: View {
+/// A `UsernamePasswordResetPasswordView` is a view that enables users who have created an account
+/// with a username and password to reset their password using a `UsernamePasswordAccountService`
+/// passed as an EnvironmentObject.
+///
+/// If the password is successfully reset, the view passed into `processSuccessfulView` is shown.
+/// A header view, footer view, and validation rules for the username can be optionally passed in as arguments.
+///
+/// ```
+/// UsernamePasswordResetPasswordView(
+///     usernameValidationRules: [/*..*/],
+///     header: HeaderView(),
+///     footer: FooterView(),
+///     processSuccessfulView: ResetSuccessView(),
+///     localization: .environment
+/// )
+///     .environmentObject(UsernamePasswordAccountService())
+/// ``
+public struct UsernamePasswordResetPasswordView: View {
     private let usernameValidationRules: [ValidationRule]
     private let header: AnyView
     private let footer: AnyView
@@ -26,7 +43,7 @@ struct UsernamePasswordResetPasswordView: View {
     private let localization: ConfigurableLocalization<Localization.ResetPassword>
     
     
-    var body: some View {
+    public var body: some View {
         ScrollView {
             if processSuccess {
                 processSuccessfulView
@@ -68,7 +85,7 @@ struct UsernamePasswordResetPasswordView: View {
         }
         
         return Grid(horizontalSpacing: 16, verticalSpacing: 16) {
-            VerifyableTextFieldGridRow(
+            VerifiableTextFieldGridRow(
                 text: $username,
                 valid: $valid,
                 validationRules: usernameValidationRules,
@@ -94,9 +111,9 @@ struct UsernamePasswordResetPasswordView: View {
     private var resetPasswordButtonTitleLocalization: String {
         switch localization {
         case .environment:
-            return usernamePasswordAccountService.localization.resetPassword.resetPasswordActionbuttonTitle
+            return usernamePasswordAccountService.localization.resetPassword.resetPasswordActionButtonTitle
         case let .value(resetPassword):
-            return resetPassword.resetPasswordActionbuttonTitle
+            return resetPassword.resetPasswordActionButtonTitle
         }
     }
     
@@ -119,7 +136,16 @@ struct UsernamePasswordResetPasswordView: View {
     }
     
     
-    init<Header: View, Footer: View, ProcessSuccessful: View>(
+    /// Creates a `UsernamePasswordResetPasswordView` for users who have created an account with
+    /// a username and password to reset their password.
+    ///
+    /// - Parameters:
+    ///   - usernameValidationRules: An array of ``ValidationRule``s to apply to the entered username
+    ///   - header: A SwiftUI `View` to display as a header
+    ///   - footer: A SwiftUI `View` to display as a footer
+    ///   - processSuccessfulView: A SwiftUI `View` to display if the password has been successfully reset
+    ///   - localization: A localization configuration  to apply to this view
+    public init<Header: View, Footer: View, ProcessSuccessful: View>(
         usernameValidationRules: [ValidationRule] = [],
         @ViewBuilder header: () -> Header = { EmptyView() },
         @ViewBuilder footer: () -> Footer = { EmptyView() },

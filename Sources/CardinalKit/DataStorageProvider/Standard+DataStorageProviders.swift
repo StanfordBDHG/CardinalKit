@@ -23,7 +23,7 @@ extension Standard {
 extension Standard {
     /// Defines access to the data storage providers in the ``Standard`` actor.
     ///
-    /// A ``Standard`` can gain access to all data storage providers using the ``@DataStorageProviders`` property wrapper:
+    /// A ``Standard`` can gain access to all data storage providers using the `@```Standard/DataStorageProviders`` property wrapper:
     /// ```
     /// actor ExampleStandard: Standard {
     ///     @DataStorageProviders
@@ -33,7 +33,7 @@ extension Standard {
     /// }
     /// ```
     /// 
-    /// You can access the wrapped value of the ``@DataStorageProviders`` after the ``Standard`` is configured using ``Standard/configure()``,
-    /// e.g. in the ``LifecycleHandler/willFinishLaunchingWithOptions(_:launchOptions:)`` function.
+    /// You can access the wrapped value of the `@` ``Standard/DataStorageProviders`` after the ``Standard`` is configured using ``Component/configure()-5lup3``,
+    /// e.g. in the ``LifecycleHandler/willFinishLaunchingWithOptions(_:launchOptions:)-26h4k`` function.
     public typealias DataStorageProviders = _DataStorageProvidersPropertyWrapper<Self>
 }

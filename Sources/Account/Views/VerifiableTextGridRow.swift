@@ -10,7 +10,7 @@ import SwiftUI
 import Views
 
 
-struct VerifyableTextFieldGridRow<Description: View, TextField: View>: View {
+struct VerifiableTextFieldGridRow<Description: View, TextField: View>: View {
     private let description: Description
     private let textField: TextField
     private let validationRules: [ValidationRule]
@@ -70,7 +70,7 @@ struct VerifyableTextFieldGridRow<Description: View, TextField: View>: View {
         self.textField = textField(text)
     }
     
-    // We want to have the same argument order as found in the main initializer. We do not move the description property up as it constructs a trainling closure in the main initializer.
+    // We want to have the same argument order as found in the main initializer. We do not move the description property up as it constructs a trailing closure in the main initializer.
     // swiftlint:disable:next function_default_parameter_at_end
     init(
         text: Binding<String>,
@@ -120,7 +120,7 @@ struct VerifyableTextFieldGridRow<Description: View, TextField: View>: View {
 }
 
 
-struct VerifyableTextFieldGridRow_Previews: PreviewProvider {
+struct VerifiableTextFieldGridRow_Previews: PreviewProvider {
     private enum Field: Hashable {
         case first
         case second
@@ -146,7 +146,7 @@ struct VerifyableTextFieldGridRow_Previews: PreviewProvider {
     
     private static var views: some View {
         Grid(horizontalSpacing: 8, verticalSpacing: 8) {
-            VerifyableTextFieldGridRow(
+            VerifiableTextFieldGridRow(
                 text: $text,
                 valid: $valid,
                 description: {
@@ -160,7 +160,7 @@ struct VerifyableTextFieldGridRow_Previews: PreviewProvider {
             )
                 .onTapFocus(focusedField: _focusedField, fieldIdentifier: .first)
             Divider()
-            VerifyableTextFieldGridRow(
+            VerifiableTextFieldGridRow(
                 text: $text,
                 valid: $valid,
                 description: {

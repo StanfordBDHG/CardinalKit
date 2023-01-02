@@ -9,9 +9,9 @@
 import SwiftUI
 
 
-/// A ``Component`` can conform to ``ObservableObjectProvider`` to inject an ``ObservableObject``s in the SwiftUI view hierachy using ``ObservableObjectProvider/observableObjects``
+/// A ``Component`` can conform to ``ObservableObjectProvider`` to inject an `ObservableObject`s in the SwiftUI view hierachy using ``ObservableObjectProvider/observableObjects-6w1nz``
 public protocol ObservableObjectProvider {
-    /// The ``ObservableObject`` instances that should be injected in the SwiftUI environment.
+    /// The `ObservableObject` instances that should be injected in the SwiftUI environment.
     var observableObjects: [any ObservableObject] { get }
 }
 

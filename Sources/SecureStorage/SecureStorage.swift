@@ -14,11 +14,11 @@ import Security
 import XCTRuntimeAssertions
 
 
-/// The ``SecureStorage`` serves as a resuable ``Module`` that can be used to store store small chunks of data such as credentials and keys.
+/// The ``SecureStorage/SecureStorage`` serves as a resuable `Module` that can be used to store store small chunks of data such as credentials and keys.
 ///
 /// The storing of credentials and keys follows the Keychain documentation provided by Apple: https://developer.apple.com/documentation/security/keychain_services/keychain_items/using_the_keychain_to_manage_user_secrets.
 public final class SecureStorage<ComponentStandard: Standard>: Module, DefaultInitializable {
-    /// The ``SecureStorage`` serves as a resuable ``Module`` that can be used to store store small chunks of data such as credentials and keys.
+    /// The ``SecureStorage/SecureStorage`` serves as a resuable `Module` that can be used to store store small chunks of data such as credentials and keys.
     ///
     /// The storing of credentials and keys follows the Keychain documentation provided by Apple:
     /// https://developer.apple.com/documentation/security/keychain_services/keychain_items/using_the_keychain_to_manage_user_secrets.

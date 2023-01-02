@@ -15,7 +15,7 @@ import SwiftUI
 /// Other ``AccountService``s can be created by subclassing the ``UsernamePasswordAccountService`` and overriding the ``UsernamePasswordAccountService/localization``,
 /// buttons like the ``UsernamePasswordAccountService/loginButton``, or overriding the ``UsernamePasswordAccountService/login(username:password:)`` and ``UsernamePasswordAccountService/button(_:destination:)`` functions.
 open class UsernamePasswordAccountService: @unchecked Sendable, AccountService, ObservableObject {
-    /// The ``Account/Account`` instance that can be used to interact with the ``Account/Account/user``.
+    /// The ``Account/Account`` instance that can be used to e.g., interact with the ``Account/Account/signedIn``.
     public weak var account: Account?
     
     

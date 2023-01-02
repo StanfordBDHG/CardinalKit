@@ -7,7 +7,10 @@
 //
 
 
-enum ConfigurableLocalization<T> {
+/// Describes a localization configuration
+public enum ConfigurableLocalization<T> {
+    /// The default localization
     case environment
+    /// The specific localization for a ``Localization`` subtype (e.g. ``Localization/Login-swift.struct``)
     case value(T)
 }

@@ -19,8 +19,8 @@ public struct FieldLocalization: Codable {
     
     /// Creates a new ``FieldLocalization`` instance.
     /// - Parameters:
-    ///   - title: The title of a `TextField` following the localization mechanisms lined out in ``StringProtocol/loalized``.
-    ///   - placeholder: The placeholder of a `TextField` following the localization mechanisms lined out in ``StringProtocol/loalized``.
+    ///   - title: The title of a `TextField` following the localization mechanisms lined out in `StringProtocol.loalized`.
+    ///   - placeholder: The placeholder of a `TextField` following the localization mechanisms lined out in `StringProtocol,loalized`.
     public init<Title: StringProtocol, Placeholder: StringProtocol>(title: Title, placeholder: Placeholder) {
         self.title = title.localized
         self.placeholder = placeholder.localized

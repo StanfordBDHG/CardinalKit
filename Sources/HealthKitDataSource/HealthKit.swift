@@ -11,7 +11,7 @@ import HealthKit
 import SwiftUI
 
 
-/// The ``HealthKit`` module enables the collection of HealthKit data and transforms it to the component's standard's base type using a ``DataSourceRegistryAdapter`` (``HealthKit/Adapter``)
+/// The ``HealthKit`` module enables the collection of HealthKit data and transforms it to the component's standard's base type using a `DataSourceRegistryAdapter` (``HealthKit/Adapter``)
 ///
 /// Use the ``HealthKit/init(_:adapter:)`` initializer to define different ``HealthKitDataSourceDescription``s to define the data collection.
 /// You can, e.g., use ``CollectSample`` to collect a wide variaty of `HKSampleTypes`:

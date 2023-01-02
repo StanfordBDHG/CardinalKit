@@ -13,7 +13,7 @@ import SwiftUI
 /// Open-source framework for rapid development of modern, interoperable digital health applications.
 ///
 /// Set up the CardinalKit framework in your `App` instance of your SwiftUI applicaton using the ``CardinalKitAppDelegate`` and the `@UIApplicationDelegateAdaptor` property wrapper.
-/// Use the ``SwiftUI/View/.cardinalKit(_: CardinalKitAppDelegate)`` view modifier to apply your CardinalKit configuration to the main view in your SwiftUI `Scene`:
+/// Use the `View.cardinalKit(_: CardinalKitAppDelegate)` view modifier to apply your CardinalKit configuration to the main view in your SwiftUI `Scene`:
 /// ```
 /// import CardinalKit
 /// import SwiftUI

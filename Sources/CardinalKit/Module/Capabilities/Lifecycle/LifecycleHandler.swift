@@ -10,10 +10,10 @@ import os
 import SwiftUI
 
 
-/// Delegate methods related to the  ``UIApplication`` and ``CardinalKit/CardinalKit`` lifecycle
+/// Delegate methods related to the  `UIApplication` and ``CardinalKit/CardinalKit`` lifecycle
 public protocol LifecycleHandler {
     /// Replicates  the `application(_: UIApplication, willFinishLaunchingWithOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool`
-    /// functionality of the ``UIApplicationDelegate``.
+    /// functionality of the `UIApplicationDelegate`.
     ///
     /// Tells the delegate that the launch process has begun but that state restoration hasn’t occured.
     /// - Parameters:
@@ -24,7 +24,7 @@ public protocol LifecycleHandler {
         launchOptions: [UIApplication.LaunchOptionsKey: Any]
     )
     
-    /// Replicates  the `applicationWillTerminate(_: UIApplication)` functionality of the ``UIApplicationDelegate``.
+    /// Replicates  the `applicationWillTerminate(_: UIApplication)` functionality of the `UIApplicationDelegate`.
     ///
     /// Tells the delegate when the app is about to terminate.
     /// - Parameter application: Your singleton app object.

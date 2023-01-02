@@ -9,11 +9,11 @@
 import SwiftUI
 
 
-/// The `CardinalKitAppDelegate` is used to configure the CardinalKit-based application using the ``CardinalKitAppDelegate/configuration`` property.
+/// The ``CardinalKitAppDelegate`` is used to configure the CardinalKit-based application using the ``CardinalKitAppDelegate/configuration`` property.
 ///
 /// Set up the CardinalKit framework in your `App` instance of your SwiftUI applicaton using the ``CardinalKitAppDelegate`` and the `@UIApplicationDelegateAdaptor` property wrapper.
-/// Use the ``SwiftUI/View/.cardinalKit(_: CardinalKitAppDelegate)`` view modifier to apply your CardinalKit configuration to the main view in your SwiftUI `Scene`:
-/// ```
+/// Use the `View.cardinalKit(_: CardinalKitAppDelegate)` view modifier to apply your CardinalKit configuration to the main view in your SwiftUI `Scene`:
+/// ```swift
 /// import CardinalKit
 /// import SwiftUI
 ///

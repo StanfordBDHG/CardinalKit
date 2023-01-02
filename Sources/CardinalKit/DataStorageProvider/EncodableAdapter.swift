@@ -22,8 +22,8 @@ public protocol EncodableAdapter<InputType, ID>: Actor {
     /// - Returns: Returns an element conforming to an `Encodable` and `Sendable`
     func transform(element: InputType) async -> any Encodable & Sendable
     
-    /// Transforms an id to an ``ID`` instance.
-    /// - Parameter id: The ``InputType``'s `ID` type that is transformed.
-    /// - Returns: The transformed ``ID`` instance.
+    /// Transforms an id to an ``EncodableAdapter/ID`` instance.
+    /// - Parameter id: The ``EncodableAdapter/InputType``'s `ID` type that is transformed.
+    /// - Returns: The transformed ``EncodableAdapter/ID`` instance.
     func transform(id: InputType.ID) async -> ID
 }

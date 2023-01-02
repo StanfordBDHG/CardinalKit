@@ -9,7 +9,21 @@
 import SwiftUI
 
 
-struct UsernamePasswordLoginView: View {
+/// A ``UsernamePasswordLoginView`` is a view that enables users to sign in with a username and password
+/// using a ``UsernamePasswordAccountService`` passed as an EnvironmentObject. A header view, footer view,
+/// localization, and validation rules for username and password can be optionally passed as arguments.
+///
+/// ```
+/// UsernamePasswordLoginView(
+///     usernameValidationRules: [/*..*/],
+///     passwordValidationRules: [/*..*/],
+///     header: HeaderView(),
+///     footer: FooterView(),
+///     localization: .environment
+/// )
+///     .environmentObject(UsernamePasswordAccountService())
+/// ```
+public struct UsernamePasswordLoginView: View {
     private let usernameValidationRules: [ValidationRule]
     private let passwordValidationRules: [ValidationRule]
     private let header: AnyView
@@ -25,7 +39,7 @@ struct UsernamePasswordLoginView: View {
     private let localization: ConfigurableLocalization<Localization.Login>
     
     
-    var body: some View {
+    public var body: some View {
         ScrollView {
             DataEntryAccountView(
                 buttonTitle: loginButtonTitleLocalization,
@@ -115,7 +129,15 @@ struct UsernamePasswordLoginView: View {
     }
     
     
-    init<Header: View, Footer: View>(
+    /// Creates a `UsernamePasswordLoginView` for users to log in with a username and password.
+    ///
+    /// - Parameters:
+    ///   - usernameValidationRules: An array of ``ValidationRule``s to apply to the entered username
+    ///   - passwordValidationRules: An array of ``ValidationRule``s to apply to the entered password
+    ///   - header: A SwiftUI `View` to display as a header
+    ///   - footer: A SwiftUI `View` to display as a footer
+    ///   - localization: A localization configuration to apply to this view
+    public init<Header: View, Footer: View>(
         usernameValidationRules: [ValidationRule] = [],
         passwordValidationRules: [ValidationRule] = [],
         @ViewBuilder header: () -> Header = { EmptyView() },

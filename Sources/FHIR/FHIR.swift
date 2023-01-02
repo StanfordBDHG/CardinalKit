@@ -12,7 +12,7 @@ import Foundation
 import XCTRuntimeAssertions
 
 
-/// The ``FHIR`` standard provides a ``CardinalKit`` ``Standard`` that utilizes HL7® FHIR® as the central standard for your CardinalKit application.
+/// The ``FHIR/FHIR`` standard provides a CardinalKit `Standard` that utilizes HL7® FHIR® as the central standard for your CardinalKit application.
 ///
 ///
 /// If you import the FHIR module using `import FHIR` you can specify all FHIR compatible components and modules in the configuration builder:
@@ -29,7 +29,7 @@ import XCTRuntimeAssertions
 /// }
 /// ```
 ///
-/// You can also manually specify the FHIR Standard by passing it into the ``Configuration`` initializer:
+/// You can also manually specify the FHIR Standard by passing it into the `configuration` initializer:
 /// ```
 /// import FHIR
 /// import CardinalKit
@@ -43,7 +43,7 @@ import XCTRuntimeAssertions
 /// }
 /// ```
 public actor FHIR: Standard {
-    /// The FHIR `Resource` type builds the ``Standard/BaseType`` of the ``FHIR`` standard.
+    /// The FHIR `Resource` type builds the `BaseType` of the ``FHIR/FHIR`` standard.
     public typealias BaseType = Resource
     
     

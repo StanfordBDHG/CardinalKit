@@ -7,12 +7,12 @@
 //
 
 
-/// A ``Component`` defines
+/// A ``Component`` defines a software subsystem that can be configured as part of the ``CardinalKitAppDelegate/configuration``.
 public protocol Component<ComponentStandard>: AnyObject, TypedCollectionKey {
     /// A ``Component/ComponentStandard`` defines what ``Standard`` the component supports.
     associatedtype ComponentStandard: Standard
     
-    /// The ``Component/configure()`` method is called on the initialization of the CardinalKit instance to perform a lightweight configuration of the component.
+    /// The ``Component/configure()-m7ic`` method is called on the initialization of the CardinalKit instance to perform a lightweight configuration of the component.
     ///
     /// It is advised that longer setup tasks are done in an asynchronous task and started during the call of the configure method.
     func configure()

@@ -16,7 +16,7 @@ struct UsernamePasswordFields: View {
             username: FieldLocalization,
             password: FieldLocalization
         )>)
-        // We do not introduce an explicity type for the temporary usage of the localization fields.
+        // We do not introduce an explicit type for the temporary usage of the localization fields.
         // swiftlint:disable:next large_tuple
         case signUp(ConfigurableLocalization<(
             username: FieldLocalization,
@@ -140,7 +140,7 @@ struct UsernamePasswordFields: View {
             }
         }
         
-        return VerifyableTextFieldGridRow(
+        return VerifiableTextFieldGridRow(
             text: $username,
             valid: $usernameValid,
             validationRules: usernameValidationRules,
@@ -173,7 +173,7 @@ struct UsernamePasswordFields: View {
             }
         }
         
-        return VerifyableTextFieldGridRow(
+        return VerifiableTextFieldGridRow(
             text: $password,
             valid: $passwordValid,
             validationRules: passwordValidationRules,
@@ -217,7 +217,7 @@ struct UsernamePasswordFields: View {
             }
         }
         
-        return VerifyableTextFieldGridRow(
+        return VerifiableTextFieldGridRow(
             text: $passwordRepeat,
             valid: $passwordRepeatValid,
             validationRules: passwordValidationRules,

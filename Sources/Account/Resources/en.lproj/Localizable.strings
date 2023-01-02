@@ -32,12 +32,12 @@
 "UAP_SIGNUP_PASSWORD_REPEAT_TITLE" = "Repeat
 Password";
 "UAP_SIGNUP_PASSWORD_REPEAT_PLACEHOLDER" = "Repeat your password ...";
-"UAP_SIGNUP_PASSWORD_NOT_EQUAL_ERROR" = "The entered passwords are not equal";
+"UAP_SIGNUP_PASSWORD_NOT_EQUAL_ERROR" = "The entered passwords are not equal.";
 "UAP_SIGNUP_GIVEN_NAME_TITLE" = "Given Name";
 "UAP_SIGNUP_GIVEN_NAME_PLACEHOLDER" = "Enter your given name ...";
 "UAP_SIGNUP_FAMILY_NAME_TITLE" = "Family Name";
 "UAP_SIGNUP_FAMILY_NAME_PLACEHOLDER" = "Enter your family name ...";
-"UAP_SIGNUP_GENDER_IDENTITY_TITLE" = "Gender Identiy";
+"UAP_SIGNUP_GENDER_IDENTITY_TITLE" = "Gender Identity";
 "UAP_SIGNUP_DATE_OF_BIRTH_TITLE" = "Date of Birth";
 "UAP_SIGNUP_ACTION_BUTTON_TITLE" = "Sign Up";
 "UAP_SIGNUP_FAILED_DEFAULT_ERROR" = "Could not sign up";

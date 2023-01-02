@@ -11,10 +11,10 @@ import SwiftUI
 import Views
 
 
-/// The ``EmailPasswordLoginService`` enables a email and password based login based on the ``UsernamePasswordAccountService``.
+/// The ``EmailPasswordAccountService`` enables a email and password based login based on the ``UsernamePasswordAccountService``.
 ///
-/// Other ``AccountService``s can be created by subclassing the ``EmailPasswordLoginService`` and overriding the ``EmailPasswordLoginService/localization``,
-/// buttons like the ``EmailPasswordLoginService/loginButton``, or overriding the ``UsernamePasswordAccountService/login(username:password:)`` and ``EmailPasswordLoginService/button(_:destination:)`` functions.
+/// Other ``AccountService``s can be created by subclassing the ``EmailPasswordAccountService`` and overriding the ``EmailPasswordAccountService/localization``,
+/// buttons like the ``EmailPasswordAccountService/loginButton``, or overriding  the ``EmailPasswordAccountService/button(_:destination:)`` function.
 open class EmailPasswordAccountService: UsernamePasswordAccountService {
     private var validationRules: [ValidationRule] {
         guard let regex = try? Regex("[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}") else {

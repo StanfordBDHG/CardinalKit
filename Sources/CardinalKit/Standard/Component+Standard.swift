@@ -22,7 +22,7 @@ extension Component {
 extension Component {
     /// Defines access to the shared ``Standard`` actor.
     ///
-    /// A ``Component`` can define the injection of a ``Standard`` using the ``@StandardActor`` property wrapper:
+    /// A ``Component`` can define the injection of a ``Standard`` using the `@```Component/StandardActor`` property wrapper:
     /// ```
     /// class ExampleComponent: Component {
     ///     typealias ComponentStandard = ExampleStandard
@@ -31,7 +31,7 @@ extension Component {
     /// }
     /// ```
     ///
-    /// You can access the wrapped value of the ``Standard`` after the ``Component`` is configured using ``Component/configure()``,
-    /// e.g. in the ``LifecycleHandler/willFinishLaunchingWithOptions(_:launchOptions:)`` function.
+    /// You can access the wrapped value of the ``Standard`` after the ``Component`` is configured using ``Component/configure()-m7ic``,
+    /// e.g. in the ``LifecycleHandler/willFinishLaunchingWithOptions(_:launchOptions:)-26h4k`` function.
     public typealias StandardActor = _StandardPropertyWrapper<ComponentStandard>
 }

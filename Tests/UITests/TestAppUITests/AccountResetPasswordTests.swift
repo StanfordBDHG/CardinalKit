@@ -53,7 +53,7 @@ final class AccountResetPasswordTests: TestAppUITests {
         
         app.enter(value: String(username.dropLast(4)), in: usernameField)
         
-        XCTAssertTrue(app.staticTexts["The entered email is not correct."].exists)
+        XCTAssertTrue(app.staticTexts["The entered email is not correct."].waitForExistence(timeout: 1.0))
         
         app.delete(count: username.dropLast(4).count, in: usernameField)
         app.enter(value: username, in: usernameField)

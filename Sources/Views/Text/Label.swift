@@ -44,7 +44,7 @@ private struct _Label: UIViewRepresentable {
 }
 
 
-/// A ``Label`` is a SwiftUI-based wrapper around a `UILabel` that allows the usage of an ``NSTextAlignment`` to e.g. justify the text.
+/// A ``Label`` is a SwiftUI-based wrapper around a `UILabel` that allows the usage of an `NSTextAlignment` to e.g. justify the text.
 public struct Label: View {
     private let text: String
     private let textStyle: UIFont.TextStyle
