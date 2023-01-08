@@ -27,7 +27,7 @@ extension HKHealthStore {
     func anchoredContinousObjectQuery(
         for sampleType: HKSampleType,
         withPredicate predicate: NSPredicate? = nil
-    ) async -> any TypedAsyncSequence<DataChange<HKSample>> {
+    ) async -> any TypedAsyncSequence<DataChange<HKSample, HKSample.ID>> {
         AsyncThrowingStream { continuation in
             Task {
                 try await self.requestAuthorization(toShare: [], read: [sampleType])
@@ -65,14 +65,14 @@ extension HKHealthStore {
         for sampleType: HKSampleType,
         using anchor: HKQueryAnchor? = nil,
         withPredicate predicate: NSPredicate? = nil
-    ) async throws -> (elements: [DataChange<HKSample>], anchor: HKQueryAnchor) {
+    ) async throws -> (elements: [DataChange<HKSample, HKSample.ID>], anchor: HKQueryAnchor) {
         try await self.requestAuthorization(toShare: [], read: [sampleType])
         
         let anchorDescriptor = anchorDescriptor(sampleType: sampleType, predicate: predicate, anchor: anchor)
         
         let result = try await anchorDescriptor.result(for: self)
         
-        var elements: [DataChange<HKSample>] = []
+        var elements: [DataChange<HKSample, HKSample.ID>] = []
         elements.reserveCapacity(result.deletedObjects.count + result.addedSamples.count)
         
         for deletedObject in result.deletedObjects {

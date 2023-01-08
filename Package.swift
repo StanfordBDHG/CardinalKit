@@ -22,6 +22,7 @@ let package = Package(
         .library(name: "CardinalKit", targets: ["CardinalKit"]),
         .library(name: "Contact", targets: ["Contact"]),
         .library(name: "FHIR", targets: ["FHIR"]),
+        .library(name: "FirebaseDataStorage", targets: ["FirebaseDataStorage"]),
         .library(name: "HealthKitDataSource", targets: ["HealthKitDataSource"]),
         .library(name: "LocalStorage", targets: ["LocalStorage"]),
         .library(name: "Onboarding", targets: ["Onboarding"]),
@@ -31,7 +32,8 @@ let package = Package(
         .library(name: "XCTRuntimeAssertions", targets: ["XCTRuntimeAssertions"])
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/FHIRModels", .upToNextMinor(from: "0.4.0"))
+        .package(url: "https://github.com/apple/FHIRModels", .upToNextMinor(from: "0.4.0")),
+        .package(url: "https://github.com/firebase/firebase-ios-sdk", from: "10.3.0")
     ],
     targets: [
         .target(
@@ -78,6 +80,14 @@ let package = Package(
             name: "FHIRTests",
             dependencies: [
                 .target(name: "FHIR")
+            ]
+        ),
+        .target(
+            name: "FirebaseDataStorage",
+            dependencies: [
+                .target(name: "CardinalKit"),
+                .product(name: "FirebaseFirestore", package: "firebase-ios-sdk"),
+                .product(name: "FirebaseFirestoreSwift", package: "firebase-ios-sdk")
             ]
         ),
         .target(

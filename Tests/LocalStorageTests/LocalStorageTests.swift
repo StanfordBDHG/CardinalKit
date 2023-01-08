@@ -14,14 +14,15 @@ import XCTest
 final class LocalStorageTests: XCTestCase {
     private actor LocalStorageTestStandard: Standard {
         typealias BaseType = StandardType
+        typealias RemovalContext = StandardType
         
         
-        struct StandardType: Identifiable {
+        struct StandardType: Sendable, Identifiable {
             var id: UUID
         }
         
         
-        func registerDataSource(_ asyncSequence: some TypedAsyncSequence<DataChange<BaseType>>) { }
+        func registerDataSource(_ asyncSequence: some TypedAsyncSequence<DataChange<BaseType, RemovalContext>>) { }
     }
     
     struct Letter: Codable, Equatable {

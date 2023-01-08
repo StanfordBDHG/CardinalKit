@@ -34,6 +34,7 @@ import SwiftUI
 open class CardinalKitAppDelegate: NSObject, UIApplicationDelegate {
     private actor DefaultStandard: Standard {
         typealias BaseType = StandardType
+        typealias RemovalContext = BaseType
         
         
         struct StandardType: Identifiable {
@@ -41,7 +42,7 @@ open class CardinalKitAppDelegate: NSObject, UIApplicationDelegate {
         }
         
         
-        func registerDataSource(_ asyncSequence: some TypedAsyncSequence<DataChange<BaseType>>) { }
+        func registerDataSource(_ asyncSequence: some TypedAsyncSequence<DataChange<BaseType, RemovalContext>>) { }
     }
     
     

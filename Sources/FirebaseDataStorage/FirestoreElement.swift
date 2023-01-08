@@ -6,7 +6,9 @@
 // SPDX-License-Identifier: MIT
 //
 
-import ModelsR4
 
-
-extension Resource: Identifiable { }
+/// <#Description#>
+public protocol FirestoreElement: Encodable, Identifiable, Sendable where ID == String {
+    /// <#Description#>
+    var collectionPath: String { get }
+}

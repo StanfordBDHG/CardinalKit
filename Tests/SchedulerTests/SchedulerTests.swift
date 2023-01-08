@@ -13,6 +13,7 @@ import XCTest
 
 actor SchedulerTestsStandard: Standard {
     typealias BaseType = CustomDataSourceType<String>
+    typealias RemovalContext = CustomDataSourceType<String>
     
     
     struct CustomDataSourceType<T: Hashable>: Equatable, Identifiable {
@@ -20,7 +21,7 @@ actor SchedulerTestsStandard: Standard {
     }
     
     
-    func registerDataSource(_ asyncSequence: some TypedAsyncSequence<DataChange<BaseType>>) { }
+    func registerDataSource(_ asyncSequence: some TypedAsyncSequence<DataChange<BaseType, RemovalContext>>) { }
 }
 
 

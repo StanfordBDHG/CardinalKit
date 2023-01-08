@@ -13,7 +13,7 @@ import XCTRuntimeAssertions
 
 
 final class DataSourceTests: XCTestCase {
-    private final class DataSourceTestComponentInjector<T: Hashable>: Component {
+    private final class DataSourceTestComponentInjector<T: Hashable & Identifiable & Sendable>: Component where T == T.ID {
         typealias ComponentStandard = TypedMockStandard<T>
         
         
@@ -25,19 +25,22 @@ final class DataSourceTests: XCTestCase {
         }
     }
     
-    final class DataSourceTestComponent<T: Identifiable, MockStandardType: Hashable>: Component, LifecycleHandler {
+    final class DataSourceTestComponent<
+        T: Identifiable,
+        MockStandardType: Identifiable
+    >: Component, LifecycleHandler where T.ID: Identifiable, T.ID == T.ID.ID, MockStandardType == MockStandardType.ID {
         typealias ComponentStandard = TypedMockStandard<MockStandardType>
         
         
         @StandardActor var standard: TypedMockStandard<MockStandardType>
-        var injectedData: [DataChange<T>]
-        let adapter: any DataSourceRegistryAdapter<T, TypedMockStandard<MockStandardType>.BaseType>
+        var injectedData: [DataChange<T, T.ID>]
+        let adapter: any Adapter<T, T.ID, TypedMockStandard<MockStandardType>.BaseType, TypedMockStandard<MockStandardType>.RemovalContext>
         
         
         init(
-            injectedData: [DataChange<T>],
-            @DataSourceRegistryAdapterBuilder<TypedMockStandard<MockStandardType>> adapter:
-                () -> (any DataSourceRegistryAdapter<T, ComponentStandard.BaseType>)
+            injectedData: [DataChange<T, T.ID>],
+            @AdapterBuilder<TypedMockStandard<MockStandardType>.BaseType, TypedMockStandard<MockStandardType>.RemovalContext> adapter:
+                () -> (any Adapter<T, T.ID, TypedMockStandard<MockStandardType>.BaseType, TypedMockStandard<MockStandardType>.RemovalContext>)
         ) {
             self.injectedData = injectedData
             self.adapter = adapter()
@@ -45,7 +48,7 @@ final class DataSourceTests: XCTestCase {
         
         
         func willFinishLaunchingWithOptions(_ application: UIApplication, launchOptions: [UIApplication.LaunchOptionsKey: Any]) {
-            let asyncStream = AsyncStream<DataChange<T>> {
+            let asyncStream = AsyncStream<DataChange<T, T.ID>> {
                 guard !self.injectedData.isEmpty else {
                     return nil
                 }
@@ -62,10 +65,13 @@ final class DataSourceTests: XCTestCase {
         }
     }
     
-    class DataSourceTestApplicationDelegate<T: Hashable>: CardinalKitAppDelegate {
+    class DataSourceTestApplicationDelegate<T: Hashable & Identifiable>: CardinalKitAppDelegate where T == T.ID {
         let dynamicDependencies: _DynamicDependenciesPropertyWrapper<TypedMockStandard<T>>
-        let dataSourceExpecations: (DataChange<TypedMockStandard<T>.BaseType>) async throws -> Void
-        let finishedDataSourceSequence: (any TypedAsyncSequence<DataChange<TypedMockStandard<T>.BaseType>>.Type) async throws -> Void
+        let dataSourceExpecations: (DataChange<TypedMockStandard<T>.BaseType, TypedMockStandard<T>.RemovalContext>) async throws -> Void
+        let finishedDataSourceSequence: (
+            any TypedAsyncSequence<DataChange<TypedMockStandard<T>.BaseType,
+            TypedMockStandard<T>.RemovalContext>>.Type
+        ) async throws -> Void
         
         
         override var configuration: Configuration {
@@ -80,8 +86,11 @@ final class DataSourceTests: XCTestCase {
         
         init(
             dynamicDependencies: _DynamicDependenciesPropertyWrapper<TypedMockStandard<T>>,
-            dataSourceExpecations: @escaping (DataChange<TypedMockStandard<T>.BaseType>) async throws -> Void,
-            finishedDataSourceSequence: @escaping (any TypedAsyncSequence<DataChange<TypedMockStandard<T>.BaseType>>.Type) async throws -> Void
+            dataSourceExpecations: @escaping (DataChange<TypedMockStandard<T>.BaseType, TypedMockStandard<T>.RemovalContext>) async throws -> Void,
+            finishedDataSourceSequence: @escaping (
+                any TypedAsyncSequence<DataChange<TypedMockStandard<T>.BaseType,
+                TypedMockStandard<T>.RemovalContext>>.Type
+            ) async throws -> Void
         ) {
             self.dynamicDependencies = dynamicDependencies
             self.dataSourceExpecations = dataSourceExpecations
@@ -89,48 +98,54 @@ final class DataSourceTests: XCTestCase {
         }
     }
     
-    actor IntToStringAdapterActor: DataSourceRegistryAdapter {
-        typealias InputType = MockStandard.CustomDataSourceType<Int>
-        typealias OutputType = MockStandard.CustomDataSourceType<String>
+    actor IntToStringAdapterActor: Adapter {
+        typealias InputElement = MockStandard.CustomDataSourceType<Int>
+        typealias InputRemovalContext = InputElement.ID
+        typealias OutputElement = MockStandard.CustomDataSourceType<String>
+        typealias OutputRemovalContext = OutputElement.ID
         
         
         func transform(
-            _ asyncSequence: some TypedAsyncSequence<DataChange<InputType>>
-        ) async -> any TypedAsyncSequence<DataChange<OutputType>> {
+            _ asyncSequence: some TypedAsyncSequence<DataChange<InputElement, InputRemovalContext>>
+        ) async -> any TypedAsyncSequence<DataChange<OutputElement, OutputRemovalContext>> {
             asyncSequence.map { element in
                 element.map(
                     element: { MockStandard.CustomDataSourceType(id: String(describing: $0.id)) },
-                    id: { String(describing: $0) }
+                    removalContext: { OutputRemovalContext($0.id) }
                 )
             }
         }
     }
     
-    actor DoubleToIntAdapterActor: SingleValueDataSourceRegistryAdapter {
-        typealias InputType = MockStandard.CustomDataSourceType<Double>
-        typealias OutputType = MockStandard.CustomDataSourceType<Int>
+    actor DoubleToIntAdapterActor: SingleValueAdapter {
+        typealias InputElement = MockStandard.CustomDataSourceType<Double>
+        typealias InputRemovalContext = InputElement.ID
+        typealias OutputElement = MockStandard.CustomDataSourceType<Int>
+        typealias OutputRemovalContext = OutputElement.ID
         
         
-        func transform(id: InputType.ID) -> OutputType.ID {
-            OutputType.ID(id)
+        func transform(element: InputElement) -> OutputElement {
+            MockStandard.CustomDataSourceType(id: OutputElement.ID(element.id))
         }
         
-        func transform(element: InputType) -> OutputType {
-            MockStandard.CustomDataSourceType(id: OutputType.ID(element.id))
+        func transform(removalContext: InputRemovalContext) -> OutputRemovalContext {
+            OutputRemovalContext(removalContext.id)
         }
     }
     
-    actor FloarToDoubleAdapterActor: SingleValueDataSourceRegistryAdapter {
-        typealias InputType = MockStandard.CustomDataSourceType<Float>
-        typealias OutputType = MockStandard.CustomDataSourceType<Double>
+    actor FloarToDoubleAdapterActor: SingleValueAdapter {
+        typealias InputElement = MockStandard.CustomDataSourceType<Float>
+        typealias InputRemovalContext = InputElement.ID
+        typealias OutputElement = MockStandard.CustomDataSourceType<Double>
+        typealias OutputRemovalContext = OutputElement.ID
         
         
-        func transform(id: InputType.ID) -> OutputType.ID {
-            OutputType.ID(id)
+        func transform(element: InputElement) -> OutputElement {
+            MockStandard.CustomDataSourceType(id: OutputElement.ID(element.id))
         }
         
-        func transform(element: InputType) -> OutputType {
-            MockStandard.CustomDataSourceType(id: OutputType.ID(element.id))
+        func transform(removalContext: InputRemovalContext) -> OutputRemovalContext {
+            OutputRemovalContext(removalContext.id)
         }
     }
     
@@ -139,7 +154,7 @@ final class DataSourceTests: XCTestCase {
         let expecation = XCTestExpectation(description: "Recieved all required data source elements")
         expecation.assertForOverFulfill = true
         expecation.expectedFulfillmentCount = 3
-        var dataChanges: [DataChange<TypedMockStandard<String>.BaseType>] = []
+        var dataChanges: [DataChange<TypedMockStandard<String>.BaseType, TypedMockStandard<String>.RemovalContext>] = []
         
         let delegate = DataSourceTestApplicationDelegate(
             dynamicDependencies: _DynamicDependenciesPropertyWrapper<TypedMockStandard<String>>(

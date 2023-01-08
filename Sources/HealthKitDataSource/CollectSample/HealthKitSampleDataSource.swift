@@ -18,7 +18,7 @@ final class HealthKitSampleDataSource<ComponentStandard: Standard, SampleType: H
     let sampleType: SampleType
     let predicate: NSPredicate?
     let deliverySetting: HealthKitDeliverySetting
-    let adapter: HealthKit<ComponentStandard>.Adapter
+    let adapter: HealthKit<ComponentStandard>.HKSampleAdapter
     
     var didFinishLaunchingWithOptions = false
     var active = false
@@ -36,7 +36,7 @@ final class HealthKitSampleDataSource<ComponentStandard: Standard, SampleType: H
         sampleType: SampleType,
         predicate: NSPredicate? = nil, // We order the parameters in a logical order and therefore don't put the predicate at the end here.
         deliverySetting: HealthKitDeliverySetting,
-        adapter: HealthKit<ComponentStandard>.Adapter
+        adapter: HealthKit<ComponentStandard>.HKSampleAdapter
     ) {
         self.healthStore = healthStore
         self.standard = standard
@@ -120,7 +120,7 @@ final class HealthKitSampleDataSource<ComponentStandard: Standard, SampleType: H
     }
     
     
-    private func anchoredSingleObjectQuery() -> AsyncThrowingStream<DataChange<HKSample>, Error> {
+    private func anchoredSingleObjectQuery() -> AsyncThrowingStream<DataChange<HKSample, HKSample.ID>, Error> {
         AsyncThrowingStream { continuation in
             Task {
                 let results = try await healthStore.anchoredSingleObjectQuery(

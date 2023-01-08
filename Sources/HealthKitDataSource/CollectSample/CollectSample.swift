@@ -30,7 +30,7 @@ public struct CollectSample<SampleType: HKSampleType>: HealthKitDataSourceDescri
     }
     
     
-    public func dataSource<S: Standard>(healthStore: HKHealthStore, standard: S, adapter: HealthKit<S>.Adapter) -> HealthKitDataSource {
+    public func dataSource<S: Standard>(healthStore: HKHealthStore, standard: S, adapter: HealthKit<S>.HKSampleAdapter) -> HealthKitDataSource {
         HealthKitSampleDataSource<S, SampleType>(
             healthStore: healthStore,
             standard: standard,

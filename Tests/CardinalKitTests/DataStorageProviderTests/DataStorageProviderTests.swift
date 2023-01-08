@@ -36,52 +36,33 @@ final class DataStorageProviderTests: XCTestCase {
     }
     
     
-    private actor DataStorageExample<ComponentStandard: Standard>: DataStorageProvider {
-        typealias Adapter = any EncodableAdapter<ComponentStandard.BaseType, String>
-        
-        
-        let adapter: Adapter
+    private actor DataStorageExample<
+        ComponentStandard: Standard
+    >: DataStorageProvider where ComponentStandard.BaseType: Encodable, ComponentStandard.BaseType.ID == String {
         let mockUpload: (MockUpload) -> Void
         
         
-        init(adapter: Adapter, mockUpload: @escaping (MockUpload) -> Void) {
-            self.adapter = adapter
-            self.mockUpload = mockUpload
-        }
-        
-        init(
-            mockUpload: @escaping (MockUpload) -> Void
-        ) where ComponentStandard.BaseType: Encodable & Sendable, ComponentStandard.BaseType.ID: LosslessStringConvertible {
-            self.adapter = IdentityEncodableAdapter()
+        init(mockUpload: @escaping (MockUpload) -> Void) {
             self.mockUpload = mockUpload
         }
         
         
-        func process(_ element: DataChange<ComponentStandard.BaseType>) async throws {
+        func process(_ element: DataChange<ComponentStandard.BaseType, ComponentStandard.RemovalContext>) async throws {
             switch element {
             case let .addition(element):
-                async let transformedElement = adapter.transform(element: element)
-                let data = try await JSONEncoder().encode(transformedElement)
+                let data = try JSONEncoder().encode(element)
                 let string = String(decoding: data, as: UTF8.self)
                 mockUpload(.post(string))
-            case let .removal(id):
-                async let stringId = transform(id, using: adapter)
-                await mockUpload(.delete(stringId))
+            case let .removal(removalContext):
+                mockUpload(.delete(removalContext.id))
             }
-        }
-        
-        
-        private func transform(
-            _ id: ComponentStandard.BaseType.ID,
-            using adapter: some EncodableAdapter<ComponentStandard.BaseType, String>
-        ) async -> String {
-            await adapter.transform(id: id)
         }
     }
     
     
     private actor DataStorageProviderStandard: Standard {
         typealias BaseType = CustomDataSourceType<String>
+        typealias RemovalContext = BaseType
         
         
         struct CustomDataSourceType<T: Encodable & Hashable>: Encodable, Equatable, Identifiable {
@@ -93,7 +74,7 @@ final class DataStorageProviderTests: XCTestCase {
         var dataSources: [any DataStorageProvider<DataStorageProviderStandard>]
         
         
-        func registerDataSource(_ asyncSequence: some TypedAsyncSequence<DataChange<BaseType>>) {
+        func registerDataSource(_ asyncSequence: some TypedAsyncSequence<DataChange<BaseType, RemovalContext>>) {
             Task {
                 do {
                     for try await element in asyncSequence {
@@ -157,10 +138,10 @@ final class DataStorageProviderTests: XCTestCase {
         let cardinalKit = try XCTUnwrap(delegate.cardinalKit as? CardinalKit<DataStorageProviderStandard>)
         await cardinalKit.standard.registerDataSource(
             asyncStream: AsyncStream { continuation in
-                continuation.yield(DataChange.addition(DataStorageProviderStandard.CustomDataSourceType(id: "42")))
-                continuation.yield(DataChange.addition(DataStorageProviderStandard.CustomDataSourceType(id: "43")))
-                continuation.yield(DataChange.addition(DataStorageProviderStandard.CustomDataSourceType(id: "44")))
-                continuation.yield(DataChange.removal("44"))
+                continuation.yield(DataChange.addition(DataStorageProviderStandard.BaseType(id: "42")))
+                continuation.yield(DataChange.addition(DataStorageProviderStandard.BaseType(id: "43")))
+                continuation.yield(DataChange.addition(DataStorageProviderStandard.BaseType(id: "44")))
+                continuation.yield(DataChange.removal(DataStorageProviderStandard.RemovalContext(id: "44")))
             }
         )
         

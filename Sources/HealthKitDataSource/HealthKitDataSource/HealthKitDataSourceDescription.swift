@@ -21,5 +21,5 @@ public protocol HealthKitDataSourceDescription {
     ///   - healthStore: The `HKHealthStore` instance that the queries should be performed on.
     ///   - standard: The `Standard` instance that is used in the software system.
     ///   - adapter: An adapter that can adapt HealthKit data to the corresponding data standard.
-    func dataSource<S: Standard>(healthStore: HKHealthStore, standard: S, adapter: HealthKit<S>.Adapter) -> HealthKitDataSource
+    func dataSource<S: Standard>(healthStore: HKHealthStore, standard: S, adapter: HealthKit<S>.HKSampleAdapter) -> HealthKitDataSource
 }

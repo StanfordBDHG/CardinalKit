@@ -8,11 +8,14 @@
 
 
 /// A ``DataChange`` tracks the addition or removel of elements across components.
-public enum DataChange<Element: Identifiable & Sendable>: Sendable where Element.ID: Sendable {
+public enum DataChange<
+    Element: Identifiable & Sendable,
+    RemovalContext: Identifiable & Sendable
+>: Sendable where Element.ID: Sendable, Element.ID == RemovalContext.ID {
     /// A new element was added
     case addition(Element)
     /// An element was removed
-    case removal(Element.ID)
+    case removal(RemovalContext)
     
     
     /// The identifier of the `Element`.
@@ -20,8 +23,8 @@ public enum DataChange<Element: Identifiable & Sendable>: Sendable where Element
         switch self {
         case let .addition(element):
             return element.id
-        case let .removal(elementId):
-            return elementId
+        case let .removal(removalContext):
+            return removalContext.id
         }
     }
     
@@ -31,15 +34,15 @@ public enum DataChange<Element: Identifiable & Sendable>: Sendable where Element
     ///   - elementMap: The element map function maps the complete `Element` instance used for the ``DataChange/addition(_:)`` case.
     ///   - idMap: The id map function only maps the identifier or an `Element` used for the ``DataChange/removal(_:)`` case.
     /// - Returns: Returns the mapped element
-    public func map<I: Identifiable & Sendable>(
-        element elementMap: (Element) -> I,
-        id idMap: (Element.ID) -> I.ID
-    ) -> DataChange<I> {
+    public func map<E, R> (
+        element elementMap: (Element) -> (E),
+        removalContext removalContextMap: (RemovalContext) -> (R)
+    ) -> DataChange<E, R> {
         switch self {
         case let .addition(element):
             return .addition(elementMap(element))
-        case let .removal(elementId):
-            return .removal(idMap(elementId))
+        case let .removal(removalContext):
+            return .removal(removalContextMap(removalContext))
         }
     }
 }

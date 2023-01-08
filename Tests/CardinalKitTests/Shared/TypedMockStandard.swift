@@ -9,23 +9,24 @@
 import CardinalKit
 
 
-actor TypedMockStandard<T: Hashable>: Standard {
+actor TypedMockStandard<T: Hashable & Identifiable & Sendable>: Standard where T == T.ID {
     typealias BaseType = CustomDataSourceType<T>
+    typealias RemovalContext = BaseType.ID
     
     
-    struct CustomDataSourceType<T: Hashable>: Equatable, Identifiable {
+    struct CustomDataSourceType<T: Hashable & Identifiable & Sendable>: Equatable, Identifiable {
         let id: T
     }
     
     
-    let dataSourceExpecations: (DataChange<BaseType>) async throws -> Void
-    let finishedDataSourceSequence: (any TypedAsyncSequence<DataChange<BaseType>>.Type) async throws -> Void
+    let dataSourceExpecations: (DataChange<BaseType, RemovalContext>) async throws -> Void
+    let finishedDataSourceSequence: (any TypedAsyncSequence<DataChange<BaseType, RemovalContext>>.Type) async throws -> Void
     
     
     init(
-        dataSourceExpecations: @escaping (DataChange<BaseType>) async throws -> Void
+        dataSourceExpecations: @escaping (DataChange<BaseType, RemovalContext>) async throws -> Void
             = defaultDataSourceExpecations,
-        finishedDataSourceSequence: @escaping (any TypedAsyncSequence<DataChange<BaseType>>.Type) async throws -> Void
+        finishedDataSourceSequence: @escaping (any TypedAsyncSequence<DataChange<BaseType, RemovalContext>>.Type) async throws -> Void
             = defaultFinishedDataSourceSequence
     ) {
         self.dataSourceExpecations = dataSourceExpecations
@@ -34,7 +35,7 @@ actor TypedMockStandard<T: Hashable>: Standard {
     
     
     static func defaultDataSourceExpecations(
-        _ element: DataChange<BaseType>
+        _ element: DataChange<BaseType, RemovalContext>
     ) {
         switch element {
         case let .addition(newElement):
@@ -45,13 +46,13 @@ actor TypedMockStandard<T: Hashable>: Standard {
     }
     
     static func defaultFinishedDataSourceSequence(
-        _ sequenceType: any TypedAsyncSequence<DataChange<BaseType>>.Type
+        _ sequenceType: any TypedAsyncSequence<DataChange<BaseType, RemovalContext>>.Type
     ) {
         print("Finished: \(String(describing: sequenceType))")
     }
     
     
-    func registerDataSource(_ asyncSequence: some TypedAsyncSequence<DataChange<BaseType>>) {
+    func registerDataSource(_ asyncSequence: some TypedAsyncSequence<DataChange<BaseType, RemovalContext>>) {
         Task {
             do {
                 for try await element in asyncSequence {

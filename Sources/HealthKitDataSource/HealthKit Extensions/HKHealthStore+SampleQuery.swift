@@ -34,7 +34,7 @@ extension HKHealthStore {
     func sampleQueryStream(
         for sampleType: HKSampleType,
         withPredicate predicate: NSPredicate? = nil
-    ) -> AsyncThrowingStream<DataChange<HKSample>, Error> {
+    ) -> AsyncThrowingStream<DataChange<HKSample, HKSample.ID>, Error> {
         AsyncThrowingStream { continuation in
             Task {
                 for sample in try await sampleQuery(for: sampleType, withPredicate: predicate) {

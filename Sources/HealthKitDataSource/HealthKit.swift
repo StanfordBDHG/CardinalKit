@@ -51,14 +51,14 @@ import SwiftUI
 /// ```
 public final class HealthKit<ComponentStandard: Standard>: Module {
     /// The ``HealthKit/Adapter`` type defines the mapping of `HKSample`s to the component's standard's base type.
-    public typealias Adapter = any DataSourceRegistryAdapter<HKSample, ComponentStandard.BaseType>
+    public typealias HKSampleAdapter = any Adapter<HKSample, HKSample.ID, ComponentStandard.BaseType, ComponentStandard.RemovalContext>
     
     
     @StandardActor var standard: ComponentStandard
     
     let healthStore: HKHealthStore
     let healthKitDataSourceDescriptions: [HealthKitDataSourceDescription]
-    let adapter: Adapter
+    let adapter: HKSampleAdapter
     lazy var healthKitComponents: [any HealthKitDataSource] = {
         healthKitDataSourceDescriptions
             .map { $0.dataSource(healthStore: healthStore, standard: standard, adapter: adapter) }
@@ -71,7 +71,7 @@ public final class HealthKit<ComponentStandard: Standard>: Module {
     ///   - adapter: The ``HealthKit/Adapter`` type defines the mapping of `HKSample`s to the component's standard's base type.
     public init(
         @HealthKitDataSourceDescriptionBuilder _ healthKitDataSourceDescriptions: () -> ([HealthKitDataSourceDescription]),
-        @DataSourceRegistryAdapterBuilder<ComponentStandard> adapter: () -> (Adapter)
+        @AdapterBuilder<ComponentStandard.BaseType, ComponentStandard.RemovalContext> adapter: () -> (HKSampleAdapter)
     ) {
         precondition(
             HKHealthStore.isHealthDataAvailable(),

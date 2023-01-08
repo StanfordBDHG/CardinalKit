@@ -39,7 +39,6 @@ final class DataStorageProviderTests: XCTestCase {
         typealias ComponentStandard = FHIR
         
         
-        let adapter = IdentityEncodableAdapter<ComponentStandard.BaseType>()
         let mockUpload: (MockUpload) -> Void
         
         
@@ -48,25 +47,15 @@ final class DataStorageProviderTests: XCTestCase {
         }
         
         
-        func process(_ element: DataChange<ComponentStandard.BaseType>) async throws {
+        func process(_ element: DataChange<ComponentStandard.BaseType, ComponentStandard.RemovalContext>) async throws {
             switch element {
             case let .addition(element):
-                async let transformedElement = adapter.transform(element: element)
-                let data = try await JSONEncoder().encode(transformedElement)
+                let data = try JSONEncoder().encode(element)
                 let string = String(decoding: data, as: UTF8.self)
                 mockUpload(.post(string))
-            case let .removal(id):
-                async let stringId = transform(id, using: adapter)
-                await mockUpload(.delete(stringId))
+            case let .removal(removalContext):
+                mockUpload(.delete(removalContext.id.description))
             }
-        }
-        
-        
-        private func transform(
-            _ id: ComponentStandard.BaseType.ID,
-            using adapter: some EncodableAdapter<ComponentStandard.BaseType, String>
-        ) async -> String {
-            await adapter.transform(id: id)
         }
     }
     
@@ -137,8 +126,8 @@ final class DataStorageProviderTests: XCTestCase {
                 continuation.yield(.addition(observation2))
                 continuation.yield(.addition(observation3))
                 continuation.yield(.addition(observationNilId))
-                continuation.yield(.removal(nil))
-                continuation.yield(.removal("1"))
+                continuation.yield(.removal(FHIR.RemovalContext(id: nil, resourceType: "Observation")))
+                continuation.yield(.removal(FHIR.RemovalContext(id: "1", resourceType: "Observation")))
             }
         )
         
