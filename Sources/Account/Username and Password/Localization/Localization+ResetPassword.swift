@@ -10,19 +10,19 @@ import Views
 
 
 extension Localization {
-    /// A configuration for providing localized text for reset password views
+    /// Provides localization information for the reset password-related views in the Accont module.
     ///
-    /// ```
+    /// The values passed into the ``Localization`` substructs are automatically interpreted according to the localization key mechanisms defined in the CardinalKit Views module.
+    ///
+    /// You can, e.g., only customize a specific value or all values that are available in the ``Localization/ResetPassword-swift.struct/init(buttonTitle:navigationTitle:username:resetPasswordActionButtonTitle:processSuccessfulLabel:defaultResetPasswordFailedError:)`` initializer.
+    ///
+    /// ```swift
     /// ResetPassword(
-    ///     buttonTitle: "Forgot Password?"
-    ///     navigationTitle: "Forgot Password",
+    ///     navigationTitle: "CUSTOM_NAVIGATION_TITLE",
     ///     username: FieldLocalization(
-    ///        title: "Username",
-    ///        placeholder: "Enter your username ..."
-    ///     ),
-    ///     resetPasswordActionButtonTitle: "Reset Password",
-    ///     processSuccessfulLabel: "Sent out a link to reset the password.",
-    ///     defaultResetPasswordFailedError: "Could not reset the password"
+    ///        title: "CUSTOM_USERNAME",
+    ///        placeholder: "CUSTOM_USERNAME_PLACEHOLDER"
+    ///     )
     /// )
     /// ```
     public struct ResetPassword: Codable {
@@ -40,29 +40,29 @@ extension Localization {
         )
         
         
-        /// A localized `String` to display on the reset password button
+        /// A localized `String` to display on the reset password button.
         public let buttonTitle: String
-        /// A localized `String` for the reset password view's navigation title
+        /// A localized `String` for the reset password view's navigation title.
         public let navigationTitle: String
-        /// A ``FieldLocalization`` instance containing the localized title and placeholder text for the username field
+        /// A `FieldLocalization` instance containing the localized title and placeholder text for the username field.
         public let username: FieldLocalization
-        /// A localized `String` to display on the reset password action button
+        /// A localized `String` to display on the reset password action button.
         public let resetPasswordActionButtonTitle: String
-        /// A localized `String` to display when the reset password process has been successful
+        /// A localized `String` to display when the reset password process has been successful.
         public let processSuccessfulLabel: String
-        /// A localized `String` to display when the reset password process has failed
+        /// A localized `String` to display when the reset password process has failed.
         public let defaultResetPasswordFailedError: String
         
         
-        /// Creates a localization configuration for reset password views
+        /// Creates a localization configuration for reset password views.
         ///
         /// - Parameters:
-        ///   - buttonTitle: A localized `String` title for the reset password button
-        ///   - navigationTitle: A localized `String` for the reset password view's navigation title
-        ///   - username: A ``FieldLocalization`` instance containing the localized title and placeholder text for the username field
-        ///   - resetPasswordActionbuttonTitle: A localized `String` to display on the reset password action button
-        ///   - processSuccessfulLabel: A localized `String` to display when the reset password process has been successful
-        ///   - defaultResetPasswordFailedError: A localized `String` to display when the reset password process has failed
+        ///   - buttonTitle: A localized `String` title for the reset password button.
+        ///   - navigationTitle: A localized `String` for the reset password view's navigation title.
+        ///   - username: A `FieldLocalization` instance containing the localized title and placeholder text for the username field.
+        ///   - resetPasswordActionbuttonTitle: A localized `String` to display on the reset password action button.
+        ///   - processSuccessfulLabel: A localized `String` to display when the reset password process has been successful.
+        ///   - defaultResetPasswordFailedError: A localized `String` to display when the reset password process has failed.
         public init(
             buttonTitle: String = ResetPassword.default.buttonTitle,
             navigationTitle: String = ResetPassword.default.navigationTitle,

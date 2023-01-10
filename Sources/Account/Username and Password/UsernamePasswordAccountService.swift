@@ -10,10 +10,13 @@ import CardinalKit
 import SwiftUI
 
 
-/// The ``UsernamePasswordAccountService`` enables a username and password based login.
+/// Account service that enables a username and password based management
+///
+/// The ``UsernamePasswordAccountService`` enables a username and password based account management.
 ///
 /// Other ``AccountService``s can be created by subclassing the ``UsernamePasswordAccountService`` and overriding the ``UsernamePasswordAccountService/localization``,
-/// buttons like the ``UsernamePasswordAccountService/loginButton``, or overriding the ``UsernamePasswordAccountService/login(username:password:)`` and ``UsernamePasswordAccountService/button(_:destination:)`` functions.
+/// buttons like the ``UsernamePasswordAccountService/loginButton``, or overriding the ``UsernamePasswordAccountService/login(username:password:)``
+/// and ``UsernamePasswordAccountService/button(_:destination:)`` functions.
 open class UsernamePasswordAccountService: @unchecked Sendable, AccountService, ObservableObject {
     /// The ``Account/Account`` instance that can be used to e.g., interact with the ``Account/Account/signedIn``.
     public weak var account: Account?
@@ -82,12 +85,12 @@ open class UsernamePasswordAccountService: @unchecked Sendable, AccountService, 
     open func login(username: String, password: String) async throws { }
     
     
-    /// The ``signUp(signInValues:)`` method is called by UI elements when a user wants to sign up.
+    /// The ``signUp(signUpValues:)`` method is called by UI elements when a user wants to sign up.
     ///
-    /// You can use views like the ``UsernamePasswordSignUpView`` to display user interfaces for signing up users or create your own views and call ``UsernamePasswordAccountService/signUp(signInValues:)``
+    /// You can use views like the ``UsernamePasswordSignUpView`` to display user interfaces for signing up users or create your own views and call ``UsernamePasswordAccountService/signUp(signUpValues:)``
     /// Throw an `Error` type conforming to `LocalizedError` if the sign up has not been successful to present a localized description to the user on a failed sign up.
-    /// - Parameter signInValues: The context collected in the sign in process. Refer to ``SignInValues`` for more information about the possible context.
-    open func signUp(signInValues: SignInValues) async throws { }
+    /// - Parameter signUpValues: The context collected in the sign in process. Refer to ``SignUpValues`` for more information about the possible context.
+    open func signUp(signUpValues: SignUpValues) async throws { }
     
     
     /// The ``login(username:password:)`` method is called by UI elements when a user wants to reset their password.

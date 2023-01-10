@@ -10,18 +10,29 @@ import SwiftUI
 import Views
 
 
-/// A ``UsernamePasswordSignUpView`` is a view that enables users to sign up with a username and password
-/// using a ``UsernamePasswordAccountService`` passed as an EnvironmentObject. A header view, footer view,
-/// username and password validation rules, localization, and ``SignUpOptions`` can be passed as arguments
+/// Displays a sign up view allowing a user to sign up using a username, password, and additional context.
 ///
+/// Enables ``AccountService``s such as the ``UsernamePasswordAccountService`` to
+/// display a user interface allowing users to sign up with a username and password.
+///
+/// The ``SignUp``  view automatically displays sign up buttons of all configured ``AccountService``s and is the recommended way to automatically constuct a sign up flow for different ``AccountService``s.
+///
+/// Nevertheless, the ``UsernamePasswordSignUpView`` can also be used to display the sign up view in a custom sign up flow.
+/// Applications must ensure that an ``UsernamePasswordAccountService`` instance is injected in the SwiftUI environment by, e.g., using the `.environmentObject(_:)` view modifier.
+///
+/// The view can automatically validate input using passed in ``ValidationRule``s and can be customized using header or footer views:
 /// ```
 /// UsernamePasswordSignUpView(
-///     usernameValidationRules: [/*..*/],
-///     passwordValidationRules: [/*..*/],
-///     header: HeaderView(),
-///     footer: FooterView(),
+///     passwordValidationRules: [
+///         /* ... */
+///     ],
+///     header: {
+///         Text("A Header View ...")
+///     },
+///     footer: {
+///         Text("A Footer View ...")
+///     },
 ///     signUpOptions: [.usernameAndPassword, .name, .genderIdentity, .dateOfBirth],
-///     localization: .environment
 /// )
 ///     .environmentObject(UsernamePasswordAccountService())
 /// ```
@@ -222,7 +233,7 @@ public struct UsernamePasswordSignUpView: View {
         Task {
             do {
                 try await usernamePasswordAccountService.signUp(
-                    signInValues: SignInValues(
+                    signUpValues: SignUpValues(
                         username: username,
                         password: password,
                         name: name,

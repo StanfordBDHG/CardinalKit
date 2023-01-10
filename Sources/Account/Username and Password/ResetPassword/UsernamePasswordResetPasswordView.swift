@@ -9,21 +9,30 @@
 import SwiftUI
 import Views
 
-
-/// A `UsernamePasswordResetPasswordView` is a view that enables users who have created an account
-/// with a username and password to reset their password using a `UsernamePasswordAccountService`
-/// passed as an EnvironmentObject.
+/// Displays a reset password view allowing a user to enter a username.
 ///
-/// If the password is successfully reset, the view passed into `processSuccessfulView` is shown.
-/// A header view, footer view, and validation rules for the username can be optionally passed in as arguments.
+/// Enables ``AccountService``s such as the ``UsernamePasswordAccountService`` to
+/// display a user interface allowing users to start the reset password workflow.
 ///
+/// If the password is successfully reset, the view passed as the `processSuccessfulView` into the ``UsernamePasswordResetPasswordView/init(usernameValidationRules:header:footer:processSuccessfulView:localization:)`` initializer is displayed.
+///
+/// Applications must ensure that an ``UsernamePasswordAccountService`` instance is injected in the SwiftUI environment by, e.g., using the `.environmentObject(_:)` view modifier.
+///
+/// The view can automatically validate input using passed in ``ValidationRule``s and can be customized using header or footer views:
 /// ```
 /// UsernamePasswordResetPasswordView(
-///     usernameValidationRules: [/*..*/],
-///     header: HeaderView(),
-///     footer: FooterView(),
-///     processSuccessfulView: ResetSuccessView(),
-///     localization: .environment
+///     usernameValidationRules: [
+///         /* ... */
+///     ],
+///     header: {
+///         Text("A Header View ...")
+///     },
+///     footer: {
+///         Text("A Header View ...")
+///     },
+///     processSuccessfulView: {
+///         Text("The an email to reset the password has been sent out.")
+///     }
 /// )
 ///     .environmentObject(UsernamePasswordAccountService())
 /// ``
@@ -136,15 +145,12 @@ public struct UsernamePasswordResetPasswordView: View {
     }
     
     
-    /// Creates a `UsernamePasswordResetPasswordView` for users who have created an account with
-    /// a username and password to reset their password.
-    ///
     /// - Parameters:
-    ///   - usernameValidationRules: An array of ``ValidationRule``s to apply to the entered username
-    ///   - header: A SwiftUI `View` to display as a header
-    ///   - footer: A SwiftUI `View` to display as a footer
-    ///   - processSuccessfulView: A SwiftUI `View` to display if the password has been successfully reset
-    ///   - localization: A localization configuration  to apply to this view
+    ///   - usernameValidationRules: An collection of ``ValidationRule``s to validete the entered username.
+    ///   - header: A SwiftUI `View` to display as a header.
+    ///   - footer: A SwiftUI `View` to display as a footer.
+    ///   - processSuccessfulView: A SwiftUI `View` to display if the password has been successfully reset.
+    ///   - localization: A  ``ConfigurableLocalization`` to define the localization of the ``UsernamePasswordResetPasswordView``. The default value uses the localization provided by the ``UsernamePasswordAccountService`` provided in the SwiftUI environment.
     public init<Header: View, Footer: View, ProcessSuccessful: View>(
         usernameValidationRules: [ValidationRule] = [],
         @ViewBuilder header: () -> Header = { EmptyView() },

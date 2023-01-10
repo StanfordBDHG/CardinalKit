@@ -11,7 +11,9 @@ import SwiftUI
 import Views
 
 
-/// The ``EmailPasswordAccountService`` enables a email and password based login based on the ``UsernamePasswordAccountService``.
+/// Account service that enables a email and password based account management.
+///
+/// The ``EmailPasswordAccountService`` enables a email and password based account management based on the ``UsernamePasswordAccountService``.
 ///
 /// Other ``AccountService``s can be created by subclassing the ``EmailPasswordAccountService`` and overriding the ``EmailPasswordAccountService/localization``,
 /// buttons like the ``EmailPasswordAccountService/loginButton``, or overriding  the ``EmailPasswordAccountService/button(_:destination:)`` function.

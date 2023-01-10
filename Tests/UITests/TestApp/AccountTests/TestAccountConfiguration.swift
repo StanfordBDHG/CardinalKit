@@ -12,12 +12,12 @@ import CardinalKit
 import Foundation
 
 
-actor TestAccountConfiguration<ComponentStandard: Standard>: Component, ObservableObjectProvider {
+final class TestAccountConfiguration<ComponentStandard: Standard>: Component, ObservableObjectProvider {
     private let account: Account
     private let user: User
     
     
-    nonisolated var observableObjects: [any ObservableObject] {
+    var observableObjects: [any ObservableObject] {
         [
             account,
             user

@@ -10,7 +10,9 @@ import CardinalKit
 import SwiftUI
 
 
-/// The ``Account`` type is used to store and inject account-related information into the SwiftUI View hieray and enables interaction with the ``AccountService``s.
+/// Account-related CardinalKit module managing a collection of ``AccountService``s.
+/// 
+/// The ``Account/Account`` type also enables interaction with the ``AccountService``s from anywhere in the view hierachy.
 public actor Account: ObservableObject {
     /// The ``Account/Account/signedIn`` determines if the the current Account context is signed in or not yet signed in.
     @MainActor @Published
